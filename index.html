@@ -1,0 +1,77 @@
+<!DOCTYPE HTML>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8">
+    <title>Цветок</title>
+    <link media="screen" rel="stylesheet" href="style.css">
+    <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <link href='http://fonts.googleapis.com/css?family=Marmelad|Russo+One&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
+  </head>
+  <body>
+    <div id="page">
+      <div id="mid_panel">
+        <div id="buffer"></div>
+        <div id="title">
+          <div class="label">
+            <h1>Цветок</h1>
+            <noscript><p class="noscript_message">Эта игра требует включённого Javascript.</p></noscript>
+          </div>
+        </div>
+        <div id="content_wrapper">
+          <div id="content">
+          </div>
+          <a name="end_of_content"></a>
+        </div>
+
+        <div id="legal">
+          <p>Автор игры &mdash; <a href="https://oreolek.ru">Oreolek.</a> Для игры требуется активное подключение к сети Интернет.</p>
+          <p>Содержимое, дизайн выпущены под лицензией CC-BY-SA. Игра использует код и дизайн Scio, а также движок <a href="undum.com">Undum.</a></p>
+        </div>
+      </div>
+    </div> <!-- End of div.page -->
+
+    <!-- Holds UI elements that will be cloned and placed in the main
+         page. This block itself is always hidden. -->
+    <div id="ui_library">
+      <div id="quality" class="quality">
+        <span class="name" data-attr="name"></span>
+        <span class="value" data-attr="value"></span>
+      </div>
+
+      <div id="quality_group" class="quality_group">
+        <h2 data-attr="title"></h2>
+        <div class="qualities_in_group">
+        </div>
+      </div>
+
+      <div id="progress_bar" class="progress_bar">
+        <span class="name" data-attr="name"></span>
+        <span class="value" data-attr="value"></span>
+        <div class="progress_bar_track">
+          <div class="progress_bar_color" data-attr="width">
+          </div>
+        </div>
+        <span class="left_label" data-attr="left_label"></span>
+        <span class="right_label" data-attr="right_label"></span>
+      </div>
+
+      <hr id="turn_separator">
+    </div>
+
+    <div id="content_library">
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/showdown/0.3.1/showdown.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/hyphenator/4.2.0/hyphenator.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/hyphenator/4.2.0/patterns/ru.js"></script>
+    <script type="text/javascript" src="js/undum.js"></script>
+    <script type="text/javascript" src="js/game.js"></script>
+    <script type="text/javascript">
+      Hyphenator.config({
+        		minwordlength : 4
+      });
+      Hyphenator.run();
+      $('#buffer').css("margin", ($(window).height()-$('#title').outerHeight())/2+"px" );
+    </script>
+  </body>
+</html>

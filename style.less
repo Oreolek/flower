@@ -1,0 +1,343 @@
+body {
+  background: lightblue;
+  color: black;
+  font-family: 'Marmelad', 'Open Sans', sans-serif;
+  font-size: 18px;
+  line-height: 1.6em;
+  background-attachment: fixed;
+  overflow-y: scroll;
+}
+
+/* Basic structure */
+#page {
+  margin: 0 auto;
+  position: relative;
+}
+#mid_panel {
+  margin: 0 auto;
+}
+
+/* The title block */
+#title, #title .label, #content, .tools {
+  border-radius: 2px;
+  -moz-border-radius: 2px;
+  -webkit-border-radius: 2px;
+}
+#title {
+  max-width: 28em;
+  margin: 2.2em auto 1.1em auto;
+  padding: 1.7em;
+  border: 1.1em solid rgba(0,0,0,0.25);
+  cursor: pointer; /* Until we click to start. */
+  .label {
+    overflow: hidden;
+    padding: 2.0em;
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+    margin: auto;
+    max-width: 30em;
+    position: relative;
+  }
+  h1 {
+    margin: 0;
+    font-family: 'Russo One', cursive;
+    font-size: 1.6em;
+    line-height: 1.4em;
+    letter-spacing: 0.2em;
+    text-shadow: rgba(255,255,255,0.25) 1px 1px 2px;
+    color: #80806b;
+  }
+  h2 {
+    font-size: 0.74em;
+    font-weight: normal;
+    text-align: center;
+  }
+  #dynamicsub {
+    margin: 0;
+    margin-bottom: -2em;
+  }
+  #staticsub {
+    bottom: 0;
+    right: 3.4em;
+    position: absolute;
+  }
+  h3 {
+    font-size: 1.0em;
+    font-weight: normal;
+    text-align: center;
+    margin: 1.1em 0 0 0;
+  }
+  .noscript_message {
+    left: 0;
+    right: 0;
+    bottom: 0;
+    position: absolute;
+    font-size: 0.9em;
+    font-style: italic;
+    text-align: center;
+    color: #943;
+  }
+}
+
+/* Main content */
+#content_wrapper {
+  max-width: 975px;
+  position: relative;
+  background: #060606;
+  background-color: rgba(0,0,0,0.25);
+  margin: 0.6em auto 1.1em auto;
+  padding: 2.8em;
+  display: none; /* Shown by Javascript */
+  overflow: auto;
+}
+span.drop + p {
+    text-indent: -0.4em;
+}
+p {
+  margin: 0;
+  padding-bottom: 0.2em;
+}
+hr {
+    border: none;
+    background-color: #0a0a0b;
+    width: 1.1em;
+    height: 1.1em;
+    margin-left: -3.2em;
+    position: absolute;
+}
+br + * {
+    text-indent: 1.6em;
+}
+p + p, p + img + p, p + hr + p {
+    text-indent: 1.6em;
+}
+
+ul {
+  margin: 0;
+  padding: 0 0 0 1em;
+  &.options {
+    border: 2px solid #876;
+    padding: 0;
+    margin-bottom: 0.7em;
+    list-style-type: none;
+    border-radius: 4px;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+    li {
+      border-bottom: 1px solid #876;
+      padding: 0.5em;
+    }
+  }
+}
+ul.options li:hover {
+    background-color: rgba(153,136,119,0.2);
+    cursor: pointer;
+}
+ul.options li:last-child {
+    border-bottom: none;
+}
+
+h1 {
+    font-size: 1.0em;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin: 2.3em 0 1.1em 0;
+    color: #654;
+    text-align: center;
+}
+h1:first-child {
+    margin-top: 0;
+}
+a {
+  color: #900;
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  &:hover {
+    border-bottom: 1px dotted #900;
+  }
+}
+
+img.float_right {
+    float: right;
+    margin: 1.1em 0 1.1em 1.1em;
+}
+img.float_left {
+    float: left;
+    margin: 1.1em 1.1em 1.1em 0;
+}
+img.float_center {
+    float: center;
+    width: 100%;
+}
+
+#toolbar {
+    display: none;
+}
+
+#tools_wrapper {
+    position: fixed;
+    max-width: 56em;
+    top: 2.2em;
+    left: 0.4em;
+    right: 0.4em;
+    margin: 0 auto;
+    display: none; /* Shown by Javascript */
+}
+#info_panel, #character_panel {
+    display: none;
+}
+.tools {
+    padding: 0.6em;
+    width: 8.9em;
+    background: #cec3ae url("../img/tools_bg.jpg") repeat left top;
+    position: absolute;
+}
+.tools p {
+    font-size: 0.95em;
+    line-height: 1.5em;
+}
+.tools.left {
+    left: 0;
+}
+.tools.right {
+    right: 0;
+}
+.tools h1 {
+    font-size: 1.0em;
+    font-weight: normal;
+    border-bottom: 1px solid #321;
+    margin-bottom: 0.6em;
+}
+.buttons {
+    padding-top: 0.6em;
+    margin-top: 0.6em;
+    border-top: 1px solid #321;
+    text-align: center;
+}
+.buttons button {
+    font-size: 0.8em;
+    background: #876;
+    color: #e6e6c6;
+    border: none;
+    padding: 0.3em 1.0em;
+    cursor: pointer;
+    border-radius: 4px;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+}
+.buttons button:hover {
+    background: #987;
+}
+.buttons button + button {
+    margin-left: 0.3em;
+}
+.buttons button[disabled], .buttons button[disabled]:hover {
+    background: #ba9;
+    color: #dcb;
+    cursor: default;
+}
+
+#legal {
+    max-width: 33em;
+    color: #654;
+    margin: 1em auto 0 auto;
+    padding-bottom: 2.2em;
+    display: none; /* Shown by Javascript */
+}
+#legal p {
+    font-size: 0.7em;
+    line-height: 1.3em;
+    margin-bottom: 0.5em;
+}
+#legal p + p {
+    text-indent: 0;
+}
+
+#character {
+    font-size: 1.0em;
+    line-height: 1.4em;
+}
+#qualities .quality, #character_text {
+    position: relative;
+    clear: both;
+    overflow: hidden;
+    margin: 0 -0.25em;
+    padding: 0 0.25em;
+}
+#character_text {
+    margin-bottom: 0.6em;
+}
+#character_text_content {
+    position: relative;
+    z-index: 100;
+}
+#qualities span {
+    position: relative;
+    z-index: 100;
+}
+#qualities span.name {
+    float: left;
+}
+#qualities span.value {
+    float: right;
+}
+.highlight {
+    background: rgba(255, 255, 0, 0.75);
+    position: absolute;
+    left: -4px;
+    right: -4px;
+    top: 0;
+    bottom: 0;
+}
+#qualities h2 {
+    margin: 0.5em 0 0.25em 0;
+    font-size: 1.0em;
+    border-bottom: 1px solid #321;
+}
+
+.progress_bar {
+    position: relative;
+    overflow: hidden;
+    margin: 0.6em 0;
+}
+.progress_bar_track {
+    z-index: 100;
+    background: rgba(255,255,255,0.25);
+    border: 2px solid #876;
+    height: 0.75em;
+    width: 27.7em;
+    clear: both;
+    border-radius: 4px;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+}
+.progress_bar_color {
+    background: #987;
+    width: 0;
+    height: 0.75em;
+}
+.progress_bar span {
+    z-index: 100;
+}
+.progress_bar .name {
+    font-weight: bold;
+}
+.progress_bar .value {
+    float: right;
+}
+.progress_bar .left_label {
+    float: left;
+}
+.progress_bar .right_label {
+    float: right;
+}
+#content_library, #ui_library {
+    display: none;
+}
+#menu {
+    display: none;
+}
+
+#content {
+    font-size: 0.9em;
+}
