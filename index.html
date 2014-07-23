@@ -18,7 +18,7 @@
           </div>
         </div>
         <div id="content_wrapper">
-          <div id="content">
+          <div id="content" class="hyphenate">
           </div>
           <a name="end_of_content"></a>
         </div>
@@ -67,9 +67,6 @@
     <script type="text/javascript" src="js/undum.js"></script>
     <script type="text/javascript" src="js/game.js"></script>
     <script type="text/javascript">
-      Hyphenator.config({
-        		minwordlength : 4
-      });
       Hyphenator.run();
       $('#buffer').css("margin", ($(window).height()-$('#title').outerHeight())/2+"px" );
     </script>
