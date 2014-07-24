@@ -4,7 +4,7 @@
 // define the content of the game.
 // ---------------------------------------------------------------------------
 
-(function() {
+(function($) {
     // -----------------------------------------------------------------------
     // Internal Infrastructure Implementations [NB: These have to be
     // at the top, because we use them below, but you can safely
@@ -135,7 +135,7 @@
      * tags: a list of tags for this situation, which can be used for
      *     implicit situation selection. The tags can also be given as
      *     space, tab or comma separated tags in a string. Note that,
-     *     when calling getSituationIdChoices, tags are prefixed with
+     *     when calling `getSituationIdChoices`, tags are prefixed with
      *     a hash, but that should not be the case here. Just use the
      *     plain tag name.
      *
@@ -167,7 +167,7 @@
             this._frequency =
                 (opts.frequency !== undefined) ? opts.frequency : 1;
             this._displayOrder =
-                (opts.displayOrder != undefined) ? opts.displayOrder : 1;
+                (opts.displayOrder !== undefined) ? opts.displayOrder : 1;
 
             // Tag are not stored with an underscore, because they are
             // accessed directy. They should not be context sensitive
@@ -175,7 +175,7 @@
             // manipulation).
             if (opts.tags !== undefined) {
                 if ($.isArray(opts.tags)) {
-                    this.tags = opts.tags
+                    this.tags = opts.tags;
                 } else {
                     this.tags = opts.tags.split(/[ \t,]+/);
                 }
@@ -238,13 +238,13 @@
         }
     };
     /* Returns the priority, frequency and displayOrder for this situation,
-     * when being selected using system.getSituationIdChoices. */
+     * when being selected using `system.getSituationIdChoices`. */
     Situation.prototype.choiceData = function(character, system, situation) {
         return {
             priority: this._priority,
             frequency: this._frequency,
             displayOrder: this._displayOrder
-        }
+        };
     };
 
     /* A simple situation has a block of content that it displays when
@@ -268,26 +268,27 @@
      *
      * choices: A list of situation ids and tags that, if given, will
      *     be used to compile an implicit option block using
-     *     getSituationIdChoices (see that function for more details
+     *     `getSituationIdChoices` (see that function for more details
      *     of how this works). Tags in this list should be prefixed
      *     with a hash # symbol, to distinguish them from situation
-     *     ids.
+     *     ids. If just a single tag or id is needed, it can be passed
+     *     in as a string without wrapping into a list.
      *
-     * minChoices: If choices is given, and an implicit choice block
+     * minChoices: If `choices` is given, and an implicit choice block
      *     should be compiled, set this option to require at least
      *     this number of options to be displayed. See
-     *     getSituationIdChoices for a description of the algorithm by
+     *     `getSituationIdChoices` for a description of the algorithm by
      *     which this happens. If you do not specify the `choices`
      *     option, then this option will be ignored.
      *
-     * maxChoices: If choices is given, and an implicit choice block
+     * maxChoices: If `choices` is given, and an implicit choice block
      *     should be compiled, set this option to require no more than
      *     this number of options to be displayed. See
-     *     getSituationIdChoices for a description of the algorithm by
-     *     which this happens. If you do not specify the `choices`
+     *     `getSituationIdChoices` for a description of the algorithm
+     *     by which this happens. If you do not specify the `choices`
      *     option, then this option will be ignored.
      *
-     * The remaining options in the opts parameter are the same as for
+     * The remaining options in the `opts` parameter are the same as for
      * the base Situation.
      */
     var SimpleSituation = function(content, opts) {
@@ -411,7 +412,7 @@
     };
     NonZeroIntegerQuality.inherits(IntegerQuality);
     NonZeroIntegerQuality.prototype.format = function(character, value) {
-        if (value == 0) {
+        if (value === 0) {
             return null;
         } else {
             return IntegerQuality.prototype.format.call(
@@ -658,7 +659,7 @@
      * return an ordered list of valid viewable situation ids.
      */
     System.prototype.writeChoices = function(listOfIds, elementSelector) {
-        if (listOfIds.length == 0) return;
+        if (listOfIds.length === 0) return;
 
         var currentSituation = getCurrentSituation();
         var $options = $("<ul>").addClass("options");
@@ -669,7 +670,7 @@
 
             var optionText = situation.optionText(character, this,
                                                   currentSituation);
-            if (!optionText) optionText = "choice".l({number:i+1})
+            if (!optionText) optionText = "choice".l({number:i+1});
             var $option = $("<li>");
             var $a;
             if (situation.canChoose(character, this, currentSituation)) {
@@ -689,20 +690,22 @@
      *
      * This function is a complex and powerful way of compiling
      * implicit situation choices. You give it a list of situation ids
-     * and situation tags. Tags should be prefixed with a hash # to
-     * differentiate them from situation ids. The function then
-     * considers all matching situations in descending priority order,
-     * calling their canView functions and filtering out any that
-     * should not be shown, given the current state. Without
-     * additional parameters the function returns a list of the
-     * situation ids at the highest level of priority that has any
-     * valid results. So, for example, if a tag #places matches three
-     * situations, one with priority 2, and two with priority 3, and
-     * all of them can be viewed in the current context, then only the
-     * two with priority 3 will be returned. This allows you to have
-     * high-priority situations that trump any lower situations when
-     * they are valid, such as situations that force the player to go
-     * to one destination if the player is out of money, for example.
+     * and situation tags (if a single id or tag is needed just that
+     * string can be given, it doesn't need to be wrapped in a
+     * list). Tags should be prefixed with a hash # to differentiate
+     * them from situation ids. The function then considers all
+     * matching situations in descending priority order, calling their
+     * canView functions and filtering out any that should not be
+     * shown, given the current state. Without additional parameters
+     * the function returns a list of the situation ids at the highest
+     * level of priority that has any valid results. So, for example,
+     * if a tag #places matches three situations, one with priority 2,
+     * and two with priority 3, and all of them can be viewed in the
+     * current context, then only the two with priority 3 will be
+     * returned. This allows you to have high-priority situations that
+     * trump any lower situations when they are valid, such as
+     * situations that force the player to go to one destination if
+     * the player is out of money, for example.
      *
      * If a minChoices value is given, then the function will attempt
      * to return at least that many results. If not enough results are
@@ -736,13 +739,21 @@
      * Before this function returns its result, it sorts the
      * situations in increasing order of their displayOrder values.
      */
-    System.prototype.getSituationIdChoices = function(listOfIdsOrTags,
+    System.prototype.getSituationIdChoices = function(listOfOrOneIdsOrTags,
                                                       minChoices, maxChoices)
     {
+        var datum;
+        var i;
+
+        // First check if we have a single string for the id or tag.
+        if ($.type(listOfOrOneIdsOrTags) == 'string') {
+            listOfOrOneIdsOrTags = [listOfOrOneIdsOrTags];
+        }
+
         // First we build a list of all candidate ids.
         var allIds = {};
-        for (var i = 0; i < listOfIdsOrTags.length; ++i) {
-            var tagOrId = listOfIdsOrTags[i];
+        for (i = 0; i < listOfOrOneIdsOrTags.length; ++i) {
+            var tagOrId = listOfOrOneIdsOrTags[i];
             if (tagOrId.substr(0, 1) == '#') {
                 var ids = getSituationIdsWithTag(tagOrId.substr(1));
                 for (var j = 0; j < ids.length; ++j) {
@@ -778,8 +789,8 @@
         var candidatesAtLastPriority = [];
         var lastPriority;
         // In descending priority order.
-        for (var i = 0; i < viewableSituationData.length; ++i) {
-            var datum = viewableSituationData[i];
+        for (i = 0; i < viewableSituationData.length; ++i) {
+            datum = viewableSituationData[i];
             if (datum.priority != lastPriority) {
                 if (lastPriority !== undefined) {
                     // We've dropped a priority group, see if we have enough
@@ -808,8 +819,8 @@
         } else {
             // We have to sample the candidates, using their relative frequency.
             var candidatesToInclude = maxChoices - committed.length;
-            for (var i = 0; i < candidatesAtLastPriority.length; ++i) {
-                var datum = candidatesAtLastPriority[i];
+            for (i = 0; i < candidatesAtLastPriority.length; ++i) {
+                datum = candidatesAtLastPriority[i];
                 datum._frequencyValue = this.rnd.random() / datum.frequency;
             }
             candidatesToInclude.sort(function(a, b) {
@@ -826,7 +837,7 @@
 
         // And return as a list of ids only.
         var result = [];
-        for (var i = 0; i < committed.length; ++i) {
+        for (i = 0; i < committed.length; ++i) {
             result.push(committed[i].id);
         }
         return result;
@@ -1199,7 +1210,7 @@
 
     /* The stack of links, resulting from the last action, still be to
      * resolved. */
-    var linkStack = null
+    var linkStack = null;
 
     // -----------------------------------------------------------------------
     // Utility Functions
@@ -1296,10 +1307,11 @@
          * visible.) */
         var nextel = output.last().next();
         var scrollPoint;
-        if (!nextel.length)
+        if (!nextel.length) {
             scrollPoint = $("#content").height() + $("#title").height() + 60;
-        else
+        } else {
             scrollPoint = nextel.offset().top - $(window).height();
+        }
         if (scrollPoint > output.offset().top)
             scrollPoint = output.offset().top;
         scrollStack[scrollStack.length-1] = scrollPoint;
@@ -1308,7 +1320,7 @@
     /* Gets the unique id used to identify saved games. */
     var getSaveId = function() {
         return 'undum_'+game.id+"_"+game.version;
-    }
+    };
 
     /* Adds the quality blocks to the character tools. */
     var showQualities = function() {
@@ -1432,7 +1444,7 @@
     var scrollStack = [];
     var pendingFirstWrite = false;
     var startOutputTransaction = function() {
-        if (scrollStack.length == 0) {
+        if (scrollStack.length === 0) {
             pendingFirstWrite = true;
         }
         // The default is "all the way down".
@@ -1450,7 +1462,7 @@
     };
     var endOutputTransaction = function() {
         var scrollPoint = scrollStack.pop();
-        if (scrollStack.length == 0 && scrollPoint != null) {
+        if (scrollStack.length === 0 && scrollPoint !== null) {
             if (interactive && !mobile) {
                 $("body, html").animate({scrollTop: scrollPoint}, 500);
             }
@@ -1636,7 +1648,7 @@
 
     /* Erases the character in local storage. This is permanent! */
     var doErase = function(force) {
-        var saveId = getSaveId()
+        var saveId = getSaveId();
         if (localStorage[saveId]) {
             if (force || confirm("erase_message".l())) {
                 delete localStorage[saveId];
@@ -1820,7 +1832,7 @@
 
         // Any point that an option list appears, its options are its
         // first links.
-        $("ul.options li, #menu li").on('click', function(event) {
+        $("body").on('click', "ul.options li, #menu li", function(event) {
             // Make option clicks pass through to their first link.
             var link = $("a", this);
             if (link.length > 0) {
@@ -1837,7 +1849,7 @@
             if (wasMobile != mobile) {
                 var showing = !$(".click_message").is(":visible");
                 if (mobile) {
-                    var menu = $("#menu")
+                    var menu = $("#menu");
                     if (showing) {
                         $("#toolbar").show();
                         menu.show();
@@ -1925,8 +1937,8 @@
         /* Compiles a list of fallback languages to try if the given code
          * doesn't have the message we need. Caches it for future use. */
         var getCodesToTry = function(languageCode) {
-            var codeArray;
-            if (codeArray = codesToTry[languageCode]) return codeArray;
+            var codeArray = codesToTry[languageCode];
+            if (codeArray) return codeArray;
 
             codeArray = [];
             if (languageCode in undum.language) {
@@ -1953,7 +1965,8 @@
             var languageCodes = getCodesToTry(languageCode);
             for (var i = 0; i < languageCodes.length; i++) {
                 thisCode = languageCodes[i];
-                if (localized = lookup(thisCode, message)) return localized;
+                localized = lookup(thisCode, message);
+                if (localized) return localized;
             }
             return message;
         };
@@ -2110,7 +2123,7 @@
      * error, it will be overridden in each Random object when the
      * seed has been correctly configured. */
     Random.prototype.random = function() {
-        throw new {
+        throw {
             name:"RandomError",
             message: "random_error".l()
         };
@@ -2175,6 +2188,7 @@
                 break;
             case '%':
                 sides = 100;
+                break;
             default:
                 sides = parseInt(match[2], 10);
                 break;
@@ -2213,4 +2227,4 @@
     // preferred language.
     undum.language[""] = en;
     undum.language["en"] = en;
-})();
+}(jQuery));
