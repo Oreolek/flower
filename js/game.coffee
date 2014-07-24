@@ -18,11 +18,12 @@ undum.game.situations =
     Вася наклоняется и срывает фиолетовый цветочек. Мама любит васильки.
     """),
     {
-      tags: ["flowers"],
+      tags: "flowers",
+      choices: "#flowers",
       optionText: "Василёк"
       enter: (character, system, from) ->
         character.qualities.chose_flowers = character.qualities.chose_flowers + 1
-        if character.qualities.chose_flowers > 2
+        if character.qualities.chose_flowers == 2
           system.setQuality("flower_chosen", "cornflower")
           system.doLink("tourist")
     }
@@ -30,14 +31,15 @@ undum.game.situations =
 
   camomile: new undum.SimpleSituation(
     converter.makeHtml("""
-    Вася наклоняется и срывает фиолетовый цветочек. Мама любит васильки.
+    Теперь в букетике есть ромашка.
     """),
     {
-      tags: ["flowers"],
+      tags: "flowers",
+      choices: "#flowers",
       optionText: "Ромашка"
       enter: (character, system, from) ->
         character.qualities.chose_flowers = character.qualities.chose_flowers + 1
-        if character.qualities.chose_flowers > 2
+        if character.qualities.chose_flowers == 2
           system.setQuality("flower_chosen", "camomile")
           system.doLink("tourist")
     }
@@ -48,11 +50,12 @@ undum.game.situations =
     Жёлтый одуванчик &mdash; ничего необычного, но он сделает букетик ярче.
     """),
     {
-      tags: ["flowers"],
+      tags: "flowers",
+      choices: "#flowers",
       optionText: "Одуванчик"
       enter: (character, system, from) ->
         character.qualities.chose_flowers = character.qualities.chose_flowers + 1
-        if character.qualities.chose_flowers > 2
+        if character.qualities.chose_flowers == 2
           system.setQuality("flower_chosen", "dandelion")
           system.doLink("tourist")
     }

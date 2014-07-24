@@ -884,7 +884,9 @@
         var qualityBlock = $("#q_"+quality);
         if (qualityBlock.size() <= 0) {
             if (newDisplay === null) return;
-            qualityBlock = addQualityBlock(quality).hide().fadeIn(500);
+            qualityBlock = addQualityBlock(quality);
+            if (qualityBlock === null) return;
+            qualityBlock.hide().fadeIn(500);
         } else {
             // Do nothing if there's nothing to do.
             if (oldValue == newValue) return;
